@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>Smoothiearkisto</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1> Smoothiearkisto </h1>
+
+            <ul style="list-style-type: none; padding-left: 0px;">
+                <li th:each="resepti : ${annokset}" style="padding-bottom: 10px;">
+                    <div class="card">
+                        <h3 th:text="${resepti.getNimi()}" style="padding: 10px;"></h3>
+                        <ul>
+                            <li th:each="raakaAineReseptissa : ${raakaAineetAnnoksissa[resepti.getId()]}">
+                                <div th:text="${raakaAineet[raakaAineReseptissa.getRaakaAineId()].getNimi()} + ': ' + ${raakaAineReseptissa.getMaara()}"></div>
+                            </li>
+                        </ul>
+                        <br/>
+                        <ol>
+                            <div th:each='raakaAineReseptissa : ${raakaAineetAnnoksissa[resepti.getId()]}'>
+                                <li>
+                                    <div th:text="${raakaAineReseptissa.getOhje()}"></div>
+                                </li>
+                            </div>
+                        </ol>
+                        <br/>
+
+
+                        <form method="GET" style="padding: 10px; padding-bottom: 0px;" th:action="@{~/smoothiet/{id}(id=${resepti.id})}">
+                            <input class="btn btn-primary" type="submit" value="Muokkaa"/>
+                        </form>
+                        <form method="POST" style="padding: 10px;" th:action="@{~/smoothiet/poista/{id}(id=${resepti.id})}">
+                            <input class="btn btn-danger" type="submit" value="Poista"/>
+                        </form>
+
+                    </div>
+                </li>
+            </ul>
+            <form method="GET" style="padding-bottom: 10px;" class="form" th:action="@{~/raakaaineet/}"> 
+                <input type="submit" class="btn btn-primary" value="Raaka-aineet"/>
+            </form>
+
+            <form action="/uusiSmoothie" class="form-inline" style="padding-bottom:10px;" method="POST">
+                <input type="text" class="form-control" name="nimi" placeholder="Smoothien nimi..."/>
+                <input type="submit" class="btn btn-success" value="Lisää uusi"/>
+            </form>
+        </div>
+    </body>
+</html>

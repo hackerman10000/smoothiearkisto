@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>Muokkaussivu</title> 
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+    </head>
+    <body>
+        <div class="container">
+            <form method="GET" th:action="@{~/smoothiet/}" style="padding-bottom: 10px;"> 
+                <input type="submit" class="btn btn-primary" value="Takaisin päänäkymään" />
+            </form>
+            <form method="GET" th:action="@{~/raakaaineet/}"> 
+                <input type="submit" class="btn btn-primary" value="Raaka-aineet" />
+            </form>
+            <h1 th:text="${resepti.nimi}">Uusi resepti</h1>
+
+            <table class="table">
+                <tr th:each="RaakaAine:${resepti.raakaAineet}">
+                    <td>
+                        <span th:text="${RaakaAine.toString()}">Raakaaineet</span>
+                    </td>
+                    <td>
+                        <form method="POST" th:action="@{~/smoothiet/{reseptiid}/poistaaine/{id}(reseptiid=${RaakaAine.reseptiId}, id=${RaakaAine.raakaAineId})}">
+                            <input type="submit" class="btn btn-danger" value="Poista"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <h4>Lisää raaka-aine reseptiin:</h4>
+            <form method="POST" th:action="@{~/smoothiet/{reseptiid}/uusiaine/(reseptiid=${resepti.id})}">
+                <label for="raakaAine">Raaka-aine:</label>
+                <select id="raakaAine" class="form-control" name="raakaAine">
+                    <option th:each="aine:${raakaAineet}" th:value="${aine.id}"><p th:text="${aine.nimi}"></p></option>
+                </select>
+                <label for="jarjestys">Järjestys:</label> <input id="jarjestys" class="form-control" type="number" name="jarjestys"/>
+                <label for="maara">Määrä:</label> <input id="maara" type="text" class="form-control" name="maara"/>
+                <label for="ohje">Ohje:</label> <input id="ohje" type="text" class="form-control" name="ohje"/>
+                <br/>
+                <input class="btn btn-success" type="submit" value="Lisää"/>
+            </form>
+        </div>
+    </body>
+</html>

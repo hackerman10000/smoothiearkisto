@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>Uusi smoothie</title> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+    </head>
+    <body>
+        <div class="container">
+            <form method="GET" th:action="@{~/smoothiet/}"> 
+                <input type="submit" class="btn btn-primary" value="Takaisin päänäkymään" />
+            </form>
+            <h1>Raaka-aineet</h1>
+            <table class="table">
+                <tr th:each="RaakaAine:${raakaAineet}">
+                    <td>
+                        <span th:text="${RaakaAine.nimi}">Raakaaineet</span>
+                    </td>
+                    <td>
+                        <form method="POST" th:action="@{~/raakaaineet/{id}(id=${RaakaAine.Id})}">
+                            <input type="submit" class="btn btn-danger" value="Poista"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <form method="POST" class="form-inline" th:action="@{~/raakaaineet/}">
+                <label for="uusi">Uusi raaka-aine: </label> <input id="uusi" type="text" class="form-control" name="nimi"/>
+                <input class="btn btn-success" type="submit" value="Lisää"/>
+            </form>
+        </div>
+    </body>
+</html>

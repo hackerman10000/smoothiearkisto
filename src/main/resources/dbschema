@@ -1,0 +1,28 @@
+CREATE TABLE Resepti (
+id integer PRIMARY KEY,
+nimi varchar(100) NOT NULL
+);
+
+CREATE TABLE RaakaAine (
+id integer PRIMARY KEY,
+nimi varchar(100) NOT NULL
+);
+
+CREATE TABLE ReseptiRaakaAine (
+raaka_aine_id integer NOT NULL,
+resepti_id integer NOT NULL,
+jarjestys integer NOT NULL,
+maara varchar(20) NOT NULL,
+ohje varchar(200),
+FOREIGN KEY(raaka_aine_id) REFERENCES RaakaAine(id),
+FOREIGN KEY(resepti_id) REFERENCES Resepti(id),
+PRIMARY KEY (raaka_aine_id, resepti_id)
+);
+
+INSERT INTO Resepti (nimi) VALUES ("Mustikkasmoothie");
+INSERT INTO RaakaAine (nimi) VALUES ("Mustikka");
+INSERT INTO RaakaAine (nimi) VALUES ("Rahka");
+INSERT INTO RaakaAine (nimi) VALUES ("Jää");
+INSERT INTO ReseptiRaakaAine (raaka_aine_id, resepti_id, jarjestys, maara, ohje) VALUES (1, 1, 1, "2dl", "Lisää mustikat blenderiin ja sekoita hieman");
+INSERT INTO ReseptiRaakaAine (raaka_aine_id, resepti_id, jarjestys, maara, ohje) VALUES (2, 1, 2, "3dl", "Lisää rahka ja sekoita hieman lisää");
+INSERT INTO ReseptiRaakaAine (raaka_aine_id, resepti_id, jarjestys, maara, ohje) VALUES (3, 1, 3, "2dl", "Lisää jäät ja sekoita ne hienoksi. Nauti!");
